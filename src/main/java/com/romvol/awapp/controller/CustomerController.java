@@ -16,7 +16,7 @@ public class CustomerController {
 
 
     @GetMapping("/customers/{phoneNumber}")
-    public Mono<Customer> get(@PathVariable() String phoneNumber) {
+    public Mono<Customer> getByNumber(@PathVariable() String phoneNumber) {
         return customerRepository.findByPhoneNumber(phoneNumber);
     }
 }

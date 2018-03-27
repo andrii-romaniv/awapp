@@ -2,21 +2,25 @@ package com.romvol.awapp.configuration;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.mongo.MongoProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 
+
 @Configuration
-@EnableAutoConfiguration(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @EnableReactiveMongoRepositories(basePackages = "com.romvol.awapp.repository")
+@EnableConfigurationProperties(MongoProperties.class)
+@RequiredArgsConstructor
+@Slf4j
 public class MongoConfiguration extends AbstractReactiveMongoConfiguration {
 
+    private final MongoProperties mongoProperties;
 
     @Value("${spring.data.mongodb.database}")
     private String databaseName;
@@ -27,13 +31,8 @@ public class MongoConfiguration extends AbstractReactiveMongoConfiguration {
     }
 
     @Override
+    @Bean(destroyMethod = "close")
     public MongoClient reactiveMongoClient() {
-        return MongoClients.create();
-    }
-
-
-    @Bean
-    public ReactiveMongoTemplate reactiveMongoTemplate() {
-        return new ReactiveMongoTemplate(reactiveMongoClient(), getDatabaseName());
+        return MongoClients.create(mongoProperties.determineUri());
     }
 }

@@ -7,9 +7,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 
-/**
- * Created by aromaniv on 31.03.18.
- */
+
 @Configuration
 public class SecurityConfiguration {
 

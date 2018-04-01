@@ -15,11 +15,14 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document
+@Builder
 public class Customer {
 
     @Id
     private String id;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
     @Email
     private String email;

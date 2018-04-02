@@ -10,8 +10,14 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -49,4 +55,30 @@ public class CustomerControllerTest {
         verifyNoMoreInteractions(customerRepository);
 
     }
+
+
+    @Test
+    public void deleteCustomer() {
+        Customer customer = Customer.builder()
+                .id("1")
+                .firstName("User")
+                .lastName("Test")
+                .phoneNumber("+380660000000")
+                .build();
+
+        given(customerRepository.findById("1"))
+                .willReturn(Mono.just(customer));
+        Mono<Void> mono = Mono.empty();
+        given(customerRepository.delete(customer))
+                .willReturn(mono);
+
+        client.delete().uri("/customers/1")
+                .exchange()
+                .expectStatus().isNoContent();
+
+        verify(customerRepository, times(1)).findById(anyString());
+        verify(customerRepository, times(1)).delete(any(Customer.class));
+        verifyNoMoreInteractions(customerRepository);
+    }
 }
+

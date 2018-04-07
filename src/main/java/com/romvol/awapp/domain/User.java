@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document
-class User {
+public class User {
 
     @Id
     private String id;

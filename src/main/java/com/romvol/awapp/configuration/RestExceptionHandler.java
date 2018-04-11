@@ -1,4 +1,4 @@
-package com.romvol.awapp;
+package com.romvol.awapp.configuration;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,13 +7,13 @@ import com.romvol.awapp.exception.CustomerNotFoundException;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
@@ -26,15 +26,10 @@ import java.util.List;
 @Component
 @Order(-2)
 @Slf4j
-//TODO Do we need advice annotation here
-@RestControllerAdvice
 public class RestExceptionHandler implements WebExceptionHandler {
 
+    @Autowired
     private ObjectMapper objectMapper;
-
-    public RestExceptionHandler(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {

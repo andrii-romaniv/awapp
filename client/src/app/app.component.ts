@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
       icon: 'home',
       path: '',
       label: 'HOME'
-    }
+    },
   ];
 
   isDarkTheme = false;
@@ -37,6 +37,16 @@ export class AppComponent implements OnInit {
     this.iconRegistry.addSvgIconSetInNamespace('avatars', avatarsSafeUrl);
     this.currentUser = this.auth.currentUser();
   }
+
+  // openAdminDialog() {
+  //   this.dialog.open(DialogComponent).afterClosed()
+  //     .filter(result => !!result)
+  //     .subscribe(user => {
+  //       this.users.push(user);
+  //       this.selectedUser = user;
+  //     });
+  // }
+
   ngOnInit(): void {
     console.log('calling ngOnInit...');
     this.auth.verifyAuth();

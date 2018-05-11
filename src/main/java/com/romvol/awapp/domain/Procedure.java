@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
+
 import static com.romvol.awapp.domain.Procedure.Type.HAIRCUT;
 
 @Document
@@ -17,8 +19,7 @@ public class Procedure {
     @Id
     private String id;
     @NotBlank
-    private Float price;
-    @Builder.Default
+    private BigDecimal price;
     private Type type = HAIRCUT;
 
     enum Type {

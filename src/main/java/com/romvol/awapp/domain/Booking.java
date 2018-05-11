@@ -21,11 +21,12 @@ public class Booking {
     @Id
     private String id;
     private String note;
-    @CreatedDate
     private LocalDateTime createdDate;
+    private LocalDateTime bookingDate;
     @NotNull
     private Customer customer;
-    @Builder.Default
+    @NotNull
+    private Procedure procedure;
     private Status status = ACTIVE;
 
     enum Status {
